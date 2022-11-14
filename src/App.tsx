@@ -1,34 +1,102 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { Match } from './interfaces/Match';
+import { MatchComponent } from './components/MatchComponent';
 
-function App() {
-  const [count, setCount] = useState(0)
+export const defaultMatches: Match[] = [
+    {
+        homeTeam: 'Mexico',
+        awayTeam: 'Canada',
+        homeScore: null,
+        awayScore: null,
+        initGame: false,
+        initGameDate: null,
+        gameIsFinish: false
+    },
+    {
+        homeTeam: 'Spain',
+        awayTeam: 'Brazil',
+        homeScore: null,
+        awayScore: null,
+        initGame: false,
+        initGameDate: null,
+        gameIsFinish: false
+    },
+    {
+        homeTeam: 'Germany',
+        awayTeam: 'France',
+        homeScore: null,
+        awayScore: null,
+        initGame: false,
+        initGameDate: null,
+        gameIsFinish: false
+    },
+    {
+        homeTeam: 'Uruguay',
+        awayTeam: 'Italy',
+        homeScore: null,
+        awayScore: null,
+        initGame: false,
+        initGameDate: null,
+        gameIsFinish: false
+    },
+    {
+        homeTeam: 'Argentina',
+        awayTeam: 'Australia',
+        homeScore: null,
+        awayScore: null,
+        initGame: false,
+        initGameDate: null,
+        gameIsFinish: false
+    }
+];
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+const App = (): JSX.Element => {
+
+    const [matchs, setMatchs] = useState<Match[]>(defaultMatches);
+
+    const startGame = (index: number) => {
+        const matchToBeModified: Match = {
+            ...matchs[index],
+            initGame: true,
+            initGameDate: new Date(),
+            awayScore: 0,
+            homeScore: 0,
+        };
+
+        setMatchs(matchs.map((match: Match, arrayIndex: number) => index === arrayIndex ? matchToBeModified : match));
+    };
+
+    const finishGame = (index: number) => {
+        const matchToBeModified: Match = {
+            ...matchs[index],
+            gameIsFinish: true
+        };
+
+        setMatchs(matchs.map((match: Match, arrayIndex: number) => index === arrayIndex ? matchToBeModified : match));
+    };
+
+    const updateScore = (index: number) => {
+
+    };
+
+
+    return (
+        <div>
+            {matchs.filter((match: Match) => !match.gameIsFinish).map((match: Match, index: number) => (
+                <MatchComponent
+                    key={index}
+                    match={match}
+                    onStartGame={() => startGame(index)}
+                    onFinishGame={() => finishGame(index)}
+                    onUpdateScore={() => updateScore(index)}
+                ></MatchComponent>
+            ))}
+
+            {matchs.filter((match: Match) => match.gameIsFinish).length === matchs.length && <button>Resume</button> }
+        </div>
+    );
 }
 
-export default App
+export default App;
