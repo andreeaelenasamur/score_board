@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 import { Match } from './interfaces/Match';
 import { MatchComponent } from './components/MatchComponent';
+import moment from 'moment';
 
 export const defaultMatches: Match[] = [
     {
@@ -56,6 +57,8 @@ const App = (): JSX.Element => {
 
     const [matchs, setMatchs] = useState<Match[]>(defaultMatches);
 
+    const [showResume, setShowResume] = useState<boolean>(false);
+
     const startGame = (index: number) => {
         const matchToBeModified: Match = {
             ...matchs[index],
@@ -71,6 +74,7 @@ const App = (): JSX.Element => {
     const finishGame = (index: number) => {
         const matchToBeModified: Match = {
             ...matchs[index],
+            initGame: false,
             gameIsFinish: true
         };
 
@@ -79,12 +83,21 @@ const App = (): JSX.Element => {
 
     const updateScore = (index: number) => {
 
+        const randomTeam = Math.floor(Math.random() * 2);
+
+        const matchToBeUpdated: Match = {
+            ...matchs[index],
+            homeScore: randomTeam <= 0 ? (matchs[index].homeScore || 0) + 1 : (matchs[index].homeScore || 0),
+            awayScore: randomTeam > 0 ? (matchs[index].awayScore || 0) + 1 : (matchs[index].awayScore || 0),
+        }
+
+        setMatchs(matchs.map((match: Match, arrayIndex: number) => index === arrayIndex ? matchToBeUpdated : match));
     };
 
 
     return (
         <div>
-            {matchs.filter((match: Match) => !match.gameIsFinish).map((match: Match, index: number) => (
+            {!showResume && matchs.map((match: Match, index: number) => (
                 <MatchComponent
                     key={index}
                     match={match}
@@ -94,7 +107,28 @@ const App = (): JSX.Element => {
                 ></MatchComponent>
             ))}
 
-            {matchs.filter((match: Match) => match.gameIsFinish).length === matchs.length && <button>Resume</button> }
+            {
+                !showResume && matchs.filter((match: Match) => match.gameIsFinish).length === matchs.length &&
+                <button className='btn btn-info' onClick={() => setShowResume(true)} data-testid='resume-btn'>Resume</button>
+            }
+
+            {
+                showResume &&
+                <ul>
+                    {
+                        [...matchs]
+                        .sort((a: Match, b: Match) => (
+                            ((b.homeScore || 0) + (b.awayScore || 0)) - ((a.homeScore || 0) + (a.awayScore || 0)) || moment(b.initGameDate).diff(moment()) - moment(a.initGameDate).diff(moment()))
+                        ).map((match: Match, index: number) => (
+                            <li key={index} data-testid='game-resume'>
+                                <span>{match.homeTeam} {match.homeScore}</span> 
+                                <span>-</span>
+                                <span>{match.awayScore} {match.awayTeam}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+            }
         </div>
     );
 }

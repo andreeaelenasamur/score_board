@@ -18,9 +18,10 @@ export const MatchComponent: React.FC<Props> = ({match, onStartGame, onFinishGam
       </div>
 
       <div className='col'>
-      {!match.initGame && !match.gameIsFinish && <button className='btn btn-primary' onClick={() => onStartGame()}>Start game</button>}
-          {match.initGame && <button className='btn btn-primary' onClick={() => onFinishGame()}>Finish game</button>}
-          {match.initGame && !match.gameIsFinish && <button onClick={() => onUpdateScore()} className='btn btn-primary'>Update score</button>}
+        {!match.initGame && !match.gameIsFinish && <button className='btn btn-primary mx-2' onClick={() => onStartGame()}>Start game</button>}
+        {match.initGame && <button className='btn btn-primary mx-2' onClick={() => onFinishGame()}>Finish game</button>}
+        {match.initGame && !match.gameIsFinish && <button onClick={() => onUpdateScore()} className='btn btn-primary mx-2'>Update score</button>}
+        {match.gameIsFinish && <span className='badge text-bg-danger'>Finished</span>}
       </div>
     </div>
   )
