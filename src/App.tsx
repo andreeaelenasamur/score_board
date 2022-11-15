@@ -100,7 +100,7 @@ const App = (): JSX.Element => {
                 <h1 className='fw-bold'> <img src='./assets/soccer-ball.png' className='ballImage mx-3'/>Football World Cup</h1>
                 <h1 className='fw-bold fs-4'>Score Board</h1>
             </div>
-            <div className='mt-3 mb-3 matchs'>
+            <div className='mt-3 matchs'>
                 {!showResume && matchs.map((match: Match, index: number) => (
                     <MatchComponent
                         key={index}
@@ -131,8 +131,8 @@ const App = (): JSX.Element => {
             </div>
             {
                 !showResume && matchs.filter((match: Match) => match.gameIsFinish).length === matchs.length &&
-                <div className='d-grid gap-2 col-6 mx-auto'>
-                    <button className='btn btn-dark text-white mt-5' onClick={() => setShowResume(true)} data-testid='resume-btn'>Resume</button>
+                <div className='d-grid gap-2 col-6 mx-auto mt-4'>
+                    <button className='btn btn-dark text-white' onClick={() => setShowResume(true)} data-testid='resume-btn'>Resume</button>
                 </div>
             }
         </div>

@@ -1,14 +1,14 @@
 body{
   background-size: cover;
-  background-image: url("./assets/stadium.png");
+  background-image: url("/assets/stadium.png");
   background-repeat: no-repeat;
 }
 
 #root {
   width: 1280px;
   margin: 0 auto;
-  margin-top: 6%;
-  padding: 4em;
+  margin-top: 3%;
+  padding: 3em;
   background: hsla(0, 0%, 100%, 0.7); 
   backdrop-filter: blur(10px);
 }
