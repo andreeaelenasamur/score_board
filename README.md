@@ -24,8 +24,6 @@ Para instalar NodeJS y NPM accede a este enlace y sigue las instrucciones: https
   1. Ejecutar `npm run test` para ejecutar los tests unitarios.
 
 
-## Captura del proyecto
+## Demo de la app.
 
-![]()
-![]()
-![]()
+  1. Ir al sitio web: https://score-board-andreeaelenasamur.vercel.app/
