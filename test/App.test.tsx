@@ -1,7 +1,7 @@
 import React from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import App, { defaultMatches } from '../src/App';
-import { cleanup, fireEvent, render, renderHook, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { Match } from '../src/interfaces/Match';
 import moment from 'moment';
 
@@ -68,7 +68,7 @@ describe('Test on App.tsx', () => {
 
         printedMatchs = screen.getAllByRole('match');
         
-        expect(printedMatchs.length).not.toBe(defaultMatches.length);
+        expect(printedMatchs.length).toBe(defaultMatches.length);
 
     });
 
